@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void Gauss(vector<vector<double>> A, vector<double> B) {
+	int n = A.size();
+    for (int i = 0; i < n; i++) {
+        double max_el = abs(A[i][i]);
+        int max_row = i;
+        for (int k = i + 1; k < n; k++) {
+            if (abs(A[k][i]) > max_el) {
+                max_el = abs(A[k][i]);
+                max_row = k;
+            }
+        }
+        for (int k = i; k < n; k++) {
+            swap(A[max_row][k], A[i][k]);
+        }
+        swap(B[max_row], B[i]);
+        for (int k = i + 1; k < n; k++) {
+            double temp = A[k][i] / A[i][i];
+            B[k] -= temp * B[i];
+            for (int j = i; j < n; j++) {
+                A[k][j] -= temp * A[i][j];
+            }
+        }
+    }
+    int rankA = 0; 
+    int rankAxB = 0;
+    for (int i = 0; i < n; i++) {
+        bool non_zero_found = false;
+        for (int j = 0; j < n; j++) {
+            if (A[i][j] != 0) {
+                non_zero_found = true;
+                break;
+            }
+        }
+        if (non_zero_found) {
+            rankA++;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        bool non_zero_found = false;
+        for (int j = 0; j < n; j++) {
+            if (A[i][j] != 0) {
+                non_zero_found = true;
+                break;
+            }
+        }
+        if (non_zero_found && B[i] != 0) {
+            rankAxB++;
+        }
+    }
+    if (rankA < rankAxB) {
+        cout << "Решений нет";
+    }
+    else if (rankA == n) {
+        cout << "Система имеет единственное решение: " << endl;
+        vector<double> x(n);
+        for (int i = n - 1; i >= 0; i--) {
+            x[i] = B[i];
+            for (int j = i + 1; j < n; j++) {
+                x[i] -= A[i][j] * x[j];
+            }
+            x[i] /= A[i][i];
+        }
+        for (int i = 0; i < n; i++) {
+            cout << "x(" << i + 1 << ") = " << x[i] << endl;
+        }
+    }
+    else {
+        cout << "Система имеет бесконечное множество решений." << endl;
+    }
+}
+int main() {
+	cout << "Введите количество уравнений ";
+	int n;
+	cin >> n;
+	vector<vector<double>> A(n, vector<double>(n));
+	vector<double> B(n);
+	cout << "Введите коэффициенты матрицы A " << endl;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> A[i][j];
+		}
+	}
+	cout << "Введите свободные члены B " << endl;
+	for (int i = 0; i < n; i++) {
+		cin >> B[i];
+	}
+    Gauss(A, B);
+}
