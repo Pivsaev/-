@@ -1,6 +1,8 @@
 #include <iostream>
+#include <clocale>
 
 int main() {
+        setlocale(LC_ALL, "Russian");
 	int n;
 	std::cout << "Введите число строк: " << std::endl;
 	std::cin >> n;
