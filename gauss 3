@@ -48,6 +48,7 @@ int main() {
                 }
             }
             if ((null_gor == true) && (null_vert == true)) {
+                N--;
                 nulevoe_znach = true;
                 continue;
             }
@@ -127,6 +128,9 @@ int main() {
             std::cout << "Обратный ход: " << std::endl;
             for (int i = 0; i < n; i++) {
                 for (int i = n - 1; i >= 0; i--) {
+                    if (A[i][i] == 0) {
+                        x[i] = 0; continue;
+                    }
                     x[i] = B[i];
                     for (int j = i + 1; j < n; j++) {
                         x[i] -= A[i][j] * x[j];
@@ -138,6 +142,7 @@ int main() {
         }
         else {
             std::cout << "Система имеет бесконечное количесвто решений.";
+            
         }
     }
     else {
