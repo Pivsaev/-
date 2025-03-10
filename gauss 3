@@ -49,7 +49,7 @@ int main() {
             }
             if ((null_gor == true) && (null_vert == true)) {
                 nulevoe_znach = true;
-                break;
+                continue;
             }
         }
         else {
